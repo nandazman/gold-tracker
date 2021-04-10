@@ -36,19 +36,12 @@ async function getUsers() {
       </div>`
     );
   });
-  cardContainer.insertAdjacentHTML(
-    "beforeend",
-    `<div class="d-flex align-items-center">
-      <button type="button" class="btn btn-primary" onClick="addUsers()">
-        Tambah
-      </button>
-    </div>`
-  );
   document.querySelector("#total-amount").innerHTML = formatMoney(amount);
 }
 
 async function getBalance() {
-  const response = await db.collection("balances").get();
+  tbody.innerHTML = "";
+  const response = await db.collection("balances").orderBy("date").get();
   let prevData;
   response.forEach((item) => {
     const balance = item.data();
@@ -80,24 +73,41 @@ function formatMoney(money) {
 }
 
 async function addUsers() {
-  // await db.collection("users").add({
-  //   name: "Kang Ichanzzz",
-  //   amount: 205,
-  // });
-  // getUsers();
+  if (document.getElementById("passwordUser").value !== "Saya Hiyama") {
+    alert("Password Salah");
+    return;
+  }
+  await db.collection("users").add({
+    name: document.getElementById("name").value,
+    amount: +document.getElementById("amount").value,
+  });
+  getUsers();
+  document.getElementById("userclose").click();
 }
 
 async function addBalance() {
-  // await db.collection("balances").add({
-  //   date: formatDate(new Date()),
-  //   amount: 480.80,
-  // });
-  // getUsers();
+  if (document.getElementById("passwordBalance").value !== "Saya Hiyama") {
+    alert("Password Salah");
+    return;
+  }
+  await db.collection("balances").add({
+    date: formatDate(new Date()),
+    amount: +document.getElementById("newBalance").value,
+  });
+  getBalance();
+  document.getElementById("balanceclose").click();
 }
 
 function formatDate(date) {
   const d = new Date(date);
-  const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
 
-  return `${days[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+}
+
+function preventNonNumericalInput(e) {
+  e = e || window.event;
+  var charCode = typeof e.which == "undefined" ? e.keyCode : e.which;
+  var charStr = String.fromCharCode(charCode);
+
+  if (!charStr.match(/^[0-9.]+$/)) e.preventDefault();
 }

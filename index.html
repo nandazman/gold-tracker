@@ -8,12 +8,25 @@
 </head>
 <body>
   <div class="container py-5" id="content">
-    <div class="d-flex">
+    <div class="d-flex align-items-center mb-4">
       <h2 class="me-3">Modal</h2>
-      <h2 id="total-amount" class="mb-4">
+      <h2 id="total-amount" class="me-3">
       </h2>
+      <!-- Button trigger modal -->
+      <div class="d-flex align-items-center">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser">
+          Tambah
+        </button>
+      </div>
+
     </div>
     <div class="d-flex flex-wrap mb-5" id="card-container">
+    </div>
+    <!-- Button trigger modal -->
+    <div class="d-flex justify-content-end mb-3">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBalance">
+        Tambah
+      </button>
     </div>
     <table class="table">
       <thead>
@@ -24,9 +37,67 @@
         </tr>
       </thead>
       <tbody>
-
       </tbody>
     </table>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addUserLabel">Tambah Pemodal Boy</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="userclose"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">Nama</label>
+              <input type="text" class="form-control" id="name" >
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="form-label">Deposit</label>
+              <input type="text" class="form-control" id="amount">
+            </div>
+            <div class="mb-3">
+              <label for="passwordBalance" class="form-label">Password</label>
+              <input type="password" class="form-control" id="passwordUser">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" onclick="addUsers()">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addBalance" tabindex="-1" aria-labelledby="addBalanceLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addBalanceLabel">Tambah Balance Hari Ini</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="balanceclose"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="newBalance" class="form-label">Balance</label>
+              <input type="text" pattern="[0-9]" class="form-control" id="newBalance">
+            </div>
+            <div class="mb-3">
+              <label for="passwordBalance" class="form-label">Password</label>
+              <input type="password" class="form-control" id="passwordBalance">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" onclick="addBalance()">Simpan</button>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>

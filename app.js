@@ -80,19 +80,19 @@ function formatMoney(money) {
 }
 
 async function addUsers() {
-  await db.collection("users").add({
-    name: "Kang Ichanzzz",
-    amount: 205,
-  });
-  getUsers();
+  // await db.collection("users").add({
+  //   name: "Kang Ichanzzz",
+  //   amount: 205,
+  // });
+  // getUsers();
 }
 
 async function addBalance() {
-  await db.collection("balances").add({
-    date: formatDate(new Date()),
-    amount: 480.80,
-  });
-  getUsers();
+  // await db.collection("balances").add({
+  //   date: formatDate(new Date()),
+  //   amount: 480.80,
+  // });
+  // getUsers();
 }
 
 function formatDate(date) {

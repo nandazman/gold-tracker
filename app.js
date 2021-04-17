@@ -48,11 +48,10 @@ async function getBalance() {
     const profit = prevData
       ? formatMoney(balance.amount - prevData.amount)
       : "-";
-
     tbody.insertAdjacentHTML(
       "afterbegin",
       `<tr>
-          <td>${balance.date}</td>
+          <td>${formatDate(balance.date.toDate())}</td>
           <td>${formatMoney(balance.amount)}</td>
           <td>${profit}</td>
         </tr>`
@@ -80,6 +79,7 @@ async function addUsers() {
   await db.collection("users").add({
     name: document.getElementById("name").value,
     amount: +document.getElementById("amount").value,
+    created: firebase.firestore.FieldValue.serverTimestamp(),
   });
   getUsers();
   document.getElementById("userclose").click();
@@ -91,8 +91,8 @@ async function addBalance() {
     return;
   }
   await db.collection("balances").add({
-    date: formatDate(new Date()),
     amount: +document.getElementById("newBalance").value,
+    date: firebase.firestore.FieldValue.serverTimestamp(),
   });
   getBalance();
   document.getElementById("balanceclose").click();

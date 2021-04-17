@@ -14,9 +14,12 @@ const container = document.querySelector("#content");
 const cardContainer = document.querySelector("#card-container");
 const tbody = document.querySelector("tbody");
 
-getUsers();
-getBalance();
+getAllData();
 
+async function getAllData() {
+  await getUsers();
+  getBalance();
+}
 async function getUsers() {
   cardContainer.innerHTML = "";
   const response = await db.collection("users").get()
@@ -24,6 +27,12 @@ async function getUsers() {
   response.forEach((item) => {
     const user = item.data();
     amount += user.amount;
+  });
+
+  let i = 1;
+  response.forEach((item) => {
+    const user = item.data();
+    const percentage = ((user.amount / amount) * 100).toFixed(2);
     cardContainer.insertAdjacentHTML(
       "beforeend",
       `<div class="card me-4" style="width: 18rem;">
@@ -32,10 +41,17 @@ async function getUsers() {
           <p class="card-text">
             ${formatMoney(user.amount)}
           </p>
+          <p class="card-text mb-0 percentage" data="${percentage}">
+            ${percentage}%
+          </p>
+          <p class="card-text" id="profit-${i}">
+          </p>
         </div>
       </div>`
     );
+    i++;
   });
+
   document.querySelector("#total-amount").innerHTML = formatMoney(amount);
 }
 
@@ -59,7 +75,16 @@ async function getBalance() {
 
     prevData = balance;
   });
+  calculateProfit(prevData.amount);
+}
 
+function calculateProfit(profit) {
+  const percentages = document.querySelectorAll('.percentage');
+  for (let i = 0; i < percentages.length; i++) {
+    const percentage = percentages[i].getAttribute("data");
+    const splittedProfit = (profit * percentage) / 100;
+    document.getElementById(`profit-${i + 1}`).innerText = `profit: $${splittedProfit.toFixed(3)}`;
+  }
 }
 
 function formatMoney(money) {
@@ -81,7 +106,7 @@ async function addUsers() {
     amount: +document.getElementById("amount").value,
     created: firebase.firestore.FieldValue.serverTimestamp(),
   });
-  getUsers();
+  getAllData();
   document.getElementById("userclose").click();
 }
 
@@ -94,7 +119,7 @@ async function addBalance() {
     amount: +document.getElementById("newBalance").value,
     date: firebase.firestore.FieldValue.serverTimestamp(),
   });
-  getBalance();
+  getAllData();
   document.getElementById("balanceclose").click();
 }
 

@@ -13,6 +13,8 @@ const db = firebase.firestore();
 const container = document.querySelector("#content");
 const cardContainer = document.querySelector("#card-container");
 const tbody = document.querySelector("tbody");
+const addBalanceBtn = document.querySelector("#add-balance");
+const password = "sayahiyamahihi";
 
 getAllData();
 
@@ -97,7 +99,7 @@ function formatMoney(money) {
 }
 
 async function addUsers() {
-  if (document.getElementById("passwordUser").value !== "Saya Hiyama") {
+  if (document.getElementById("passwordUser").value !== password) {
     alert("Password Salah");
     return;
   }
@@ -111,14 +113,18 @@ async function addUsers() {
 }
 
 async function addBalance() {
-  if (document.getElementById("passwordBalance").value !== "Saya Hiyama") {
+  if (document.getElementById("passwordBalance").value !== password) {
     alert("Password Salah");
     return;
   }
+  addBalanceBtn.disabled = true;
+  addBalanceBtn.querySelector("span").classList.toggle("d-none");
   await db.collection("balances").add({
     amount: +document.getElementById("newBalance").value,
     date: firebase.firestore.FieldValue.serverTimestamp(),
   });
+  addBalanceBtn.disabled = false;
+  addBalanceBtn.querySelector("span").classList.toggle("d-none");
   getAllData();
   document.getElementById("balanceclose").click();
 }

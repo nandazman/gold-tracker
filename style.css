@@ -1,0 +1,14 @@
+.card {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .card {
+    width: 18rem;
+  }
+}
+
+@media (max-width: 288px) {
+  .add-btn {
+    width: 100%;
+  }
+}

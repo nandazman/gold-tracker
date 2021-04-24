@@ -37,7 +37,7 @@ async function getUsers() {
     const percentage = ((user.amount / amount) * 100).toFixed(2);
     cardContainer.insertAdjacentHTML(
       "beforeend",
-      `<div class="card me-4" style="width: 18rem;">
+      `<div class="card me-md-4 mb-md-0 mb-4">
         <div class="card-body">
           <h5 class="card-title">${user.name}</h5>
           <p class="card-text">
